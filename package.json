@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/edwin-mora/myFlix-client/issues"
   },
-  "homepage": "https://github.com/edwin-mora/myFlix-client#readme"
+  "homepage": "https://github.com/edwin-mora/myFlix-client#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "sass": "^1.53.0"
+  }
 }
