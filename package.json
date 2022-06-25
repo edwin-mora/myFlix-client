@@ -1,11 +1,14 @@
 {
   "name": "package.json",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "8.5.5",
   "description": "default",
   "main": "index.js",
   "entry": "src/index.html",
   "scripts": {
-    "test": "l"
+    "test": "l",
+    "start": "parcel",
+    "build": "parcel build"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "parcel": "^2.6.2",
     "sass": "^1.53.0"
   }
 }
