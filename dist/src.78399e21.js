@@ -33222,8 +33222,7 @@ class MainView extends _react.default.Component {
     const {
       movies,
       selectedMovie
-    } = this.state; //if (selectedMovie) return <MovieView movie={selectedMovie} />;
-
+    } = this.state;
     if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
       className: "main-view"
     }, "The list is empty!");
