@@ -1,6 +1,9 @@
 import React from 'react';
 
 export class MovieView extends React.Component {
+
+    //add event listener and keycallback function:
+   
     render() {
         const { movie, onBackClick } = this.props;
 
