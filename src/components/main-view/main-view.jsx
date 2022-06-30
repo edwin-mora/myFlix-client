@@ -5,6 +5,7 @@ import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import './main-view.scss';
 
@@ -86,6 +87,18 @@ render(){
   );
 }
 }
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Genre: PropTypes.string.isRequired,
+    Director: PropTypes.string.isRequired
+  }).isRequired
+};
+
+
 
 
 
