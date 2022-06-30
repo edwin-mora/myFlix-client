@@ -20,37 +20,35 @@ export function LoginView(props) {
 
 return (
     
-    <Container>
-        <Row>
-            <Col>
-            <Card style={{ marginTop: 100, marginBottom: 50, width: '30'}}>
-                <Card.Body>
-                    <Card.Title style={{ textAlign: 'center', fontSize: '2r'}}>
+<Container>
+  <Row>
+  <Col>
+  <Card style={{ marginTop: 100, marginBottom: 50, width: '30'}}>
+  <Card.Body>
+    <Card.Title style={{ textAlign: 'center', fontSize: '2r'}}>
 
-                        <Form className='login-border'>
-                            <Form.Group controlId='formUsername'>
-                                <Form.Label>Username:</Form.Label>
-                                <Form.Control type='text' value={username}
-                                onChange={e => setUsername(e.target.value)}/>
-                            </Form.Group>
+    <Form className='login-border'>
+      <Form.Group controlId='formUsername'>
+      <Form.Label>Username:</Form.Label>
+      <Form.Control type='text' value={username}
+      onChange={e => setUsername(e.target.value)}/>
+      </Form.Group>
                             
-                        <Form.Group controlId='formPassword'>
-                            <Form.Label>Password:</Form.Label>
-                            <Form.Control type='password' value={password}
-                            onChange={e => setPassword(e.target.value)} />
-                        </Form.Group>
+      <Form.Group controlId='formPassword'>
+      <Form.Label>Password:</Form.Label>
+      <Form.Control type='password' value={password}
+      onChange={e => setPassword(e.target.value)} />
+      </Form.Group>
                         
-                        <Button variant='primary' type='submit'
-                        onClick={handleSubmit}>
-                            Submit
-                        </Button>
-                        </Form>
-                    </Card.Title>
-                </Card.Body>
-            </Card>
-            </Col>
-        </Row>
-    </Container>
+      <Button variant='primary' type='submit'
+      onClick={handleSubmit}> Submit </Button>
+    </Form>
+      </Card.Title>
+    </Card.Body>
+    </Card>
+    </Col>
+    </Row>
+</Container>
 
 );
 
