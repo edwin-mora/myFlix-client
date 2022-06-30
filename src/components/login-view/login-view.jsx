@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import FormLabel from 'react-bootstrap/FormLabel';
+import PropTypes from 'prop-types';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 
 export function LoginView(props) {
@@ -55,6 +55,13 @@ return (
 );
 
 }
+
+LoginView.propTypes = {
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+    }), onLoggedIn: PropTypes.func.isRequired
+};
 
 // the component stores the username and password in its local state
 // uses them to fill in two inputs, listens for changes, and updates state

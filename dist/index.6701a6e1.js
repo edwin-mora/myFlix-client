@@ -38238,7 +38238,7 @@ exports.default = MainView; // this represents a component in react
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","axios":"iYoWk","../login-view/login-view":"054li","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-bootstrap":"h2YVd","./main-view.scss":"jyMAr"}],"iYoWk":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","axios":"iYoWk","../login-view/login-view":"054li","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","react-bootstrap":"h2YVd","./main-view.scss":"jyMAr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"iYoWk":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"3QmO2"}],"3QmO2":[function(require,module,exports) {
@@ -41434,12 +41434,7 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "LoginView", ()=>LoginView
-) // the component stores the username and password in its local state
- // uses them to fill in two inputs, listens for changes, and updates state
- // inputs were chosen based on the login endpoint in the API, expects a POST with username + pass
- // the useState hook provides a way to simplify redundancy, rewrite class component above
- // to be more readable
-;
+);
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
@@ -41447,8 +41442,8 @@ var _form = require("react-bootstrap/Form");
 var _formDefault = parcelHelpers.interopDefault(_form);
 var _button = require("react-bootstrap/Button");
 var _buttonDefault = parcelHelpers.interopDefault(_button);
-var _formLabel = require("react-bootstrap/FormLabel");
-var _formLabelDefault = parcelHelpers.interopDefault(_formLabel);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
 var _s = $RefreshSig$();
 function LoginView(props) {
@@ -41595,6 +41590,17 @@ function LoginView(props) {
 }
 _s(LoginView, "9FY2cPL9VBDmuhjwpF2ik6flsHs=");
 _c = LoginView;
+LoginView.propTypes = {
+    user: _propTypesDefault.default.shape({
+        username: _propTypesDefault.default.string.isRequired,
+        password: _propTypesDefault.default.string.isRequired
+    }),
+    onLoggedIn: _propTypesDefault.default.func.isRequired
+}; // the component stores the username and password in its local state
+ // uses them to fill in two inputs, listens for changes, and updates state
+ // inputs were chosen based on the login endpoint in the API, expects a POST with username + pass
+ // the useState hook provides a way to simplify redundancy, rewrite class component above
+ // to be more readable
 var _c;
 $RefreshReg$(_c, "LoginView");
 
@@ -41603,7 +41609,7 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap/Form":"5ykgY","react-bootstrap/Button":"9CzHT","react-bootstrap/FormLabel":"5QGBM","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-bootstrap":"h2YVd"}],"lpaPZ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap/Form":"5ykgY","react-bootstrap/Button":"9CzHT","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3"}],"lpaPZ":[function(require,module,exports) {
 "use strict";
 var Refresh = require('react-refresh/runtime');
 function debounce(func, delay) {
@@ -41802,7 +41808,7 @@ class MovieCard extends _reactDefault.default.Component {
         }));
     }
 }
-MovieCard.PropTypes = {
+MovieCard.propTypes = {
     movie: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string,
         Description: _propTypesDefault.default.string.isRequired,
@@ -41832,6 +41838,8 @@ parcelHelpers.export(exports, "MovieView", ()=>MovieView
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 class MovieView extends _reactDefault.default.Component {
     //add event listener and keycallback function:
     render() {
@@ -41840,7 +41848,7 @@ class MovieView extends _reactDefault.default.Component {
             className: "movie-view",
             __source: {
                 fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 11
+                lineNumber: 12
             },
             __self: this,
             children: [
@@ -41848,7 +41856,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-poster",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 12
+                        lineNumber: 13
                     },
                     __self: this,
                     children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
@@ -41858,7 +41866,7 @@ class MovieView extends _reactDefault.default.Component {
                         src: movie.ImagePath,
                         __source: {
                             fileName: "src/components/movie-view/movie-view.jsx",
-                            lineNumber: 13
+                            lineNumber: 14
                         },
                         __self: this
                     })
@@ -41867,7 +41875,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-title",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 15
+                        lineNumber: 16
                     },
                     __self: this,
                     children: [
@@ -41875,7 +41883,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 16
+                                lineNumber: 17
                             },
                             __self: this,
                             children: "Title: "
@@ -41884,7 +41892,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 17
+                                lineNumber: 18
                             },
                             __self: this,
                             children: movie.Title
@@ -41895,7 +41903,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-description",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 19
+                        lineNumber: 20
                     },
                     __self: this,
                     children: [
@@ -41903,7 +41911,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 20
+                                lineNumber: 21
                             },
                             __self: this,
                             children: "Description: "
@@ -41912,7 +41920,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 21
+                                lineNumber: 22
                             },
                             __self: this,
                             children: movie.Description
@@ -41923,7 +41931,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-genre",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 23
+                        lineNumber: 24
                     },
                     __self: this,
                     children: [
@@ -41931,7 +41939,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 24
+                                lineNumber: 25
                             },
                             __self: this,
                             children: "Genre: "
@@ -41940,7 +41948,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 25
+                                lineNumber: 26
                             },
                             __self: this,
                             children: movie.Genre
@@ -41951,7 +41959,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-director",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 27
+                        lineNumber: 28
                     },
                     __self: this,
                     children: [
@@ -41959,7 +41967,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 28
+                                lineNumber: 29
                             },
                             __self: this,
                             children: "Director: "
@@ -41968,7 +41976,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 29
+                                lineNumber: 30
                             },
                             __self: this,
                             children: movie.Director
@@ -41981,7 +41989,7 @@ class MovieView extends _reactDefault.default.Component {
                     },
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 31
+                        lineNumber: 32
                     },
                     __self: this,
                     children: "Back"
@@ -41990,12 +41998,21 @@ class MovieView extends _reactDefault.default.Component {
         }));
     }
 }
+MovieView.propTypes = {
+    movie: _propTypesDefault.default.shape({
+        Title: _propTypesDefault.default.string.isRequired,
+        Description: _propTypesDefault.default.string.isRequired,
+        Genre: _propTypesDefault.default.string.isRequired,
+        Director: _propTypesDefault.default.string.isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired
+    }).isRequired
+};
 
   $parcel$ReactRefreshHelpers$3741.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"jyMAr":[function() {},{}],"jUTZ8":[function() {},{}]},["9NtYk","k2XMz","dLPEP"], "dLPEP", "parcelRequire028f")
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3"}],"jyMAr":[function() {},{}],"jUTZ8":[function() {},{}]},["9NtYk","k2XMz","dLPEP"], "dLPEP", "parcelRequire028f")
 
 //# sourceMappingURL=index.6701a6e1.js.map
