@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import FormLabel from 'react-bootstrap/FormLabel';
+import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 
 export function LoginView(props) {
 
@@ -14,21 +18,41 @@ export function LoginView(props) {
         
     }
 
-    return (
-        <form>
-            <label>
-                Username: 
-                <input type="text" value={username} onChange={e => setUsername
-                (e.target.value)} />
-            </label>
-            <label>
-                Password: 
-                <input type="password" value={password} onChange={e => setPassword
-                (e.target.value)} />
-            </label>
-            <button type="submit" onClick={handleSubmit}>Submit</button>
-        </form>
-    );
+return (
+    
+    <Container>
+        <Row>
+            <Col>
+            <Card style={{ marginTop: 100, marginBottom: 50, width: '30'}}>
+                <Card.Body>
+                    <Card.Title style={{ textAlign: 'center', fontSize: '2r'}}>
+
+                        <Form className='login-border'>
+                            <Form.Group controlId='formUsername'>
+                                <Form.Label>Username:</Form.Label>
+                                <Form.Control type='text' value={username}
+                                onChange={e => setUsername(e.target.value)}/>
+                            </Form.Group>
+                            
+                        <Form.Group controlId='formPassword'>
+                            <Form.Label>Password:</Form.Label>
+                            <Form.Control type='password' value={password}
+                            onChange={e => setPassword(e.target.value)} />
+                        </Form.Group>
+                        
+                        <Button variant='primary' type='submit'
+                        onClick={handleSubmit}>
+                            Submit
+                        </Button>
+                        </Form>
+                    </Card.Title>
+                </Card.Body>
+            </Card>
+            </Col>
+        </Row>
+    </Container>
+
+);
 
 }
 

@@ -4,6 +4,9 @@ import axios from 'axios';
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { Row, Col } from 'react-bootstrap';
+
+import './main-view.scss';
 
 
 export class MainView extends React.Component {
@@ -61,12 +64,25 @@ onLoggedIn(user) {
         return (
             <div className='main-view'>
                 {selectedMovie
-                ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-            : movies.map(movie => (
+                ? (
+                <Row md={2} className='justify-content-md-center'>
+                    <Col md={8}>
+                    <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+                    </Col>
+                </Row>
+                )
+            : 
+            (
+                <Row md={2} className='justify-content-md-center'>
+                {movies.map(movie => (
+                    <Col md={6}>
                 <MovieCard key={movie._id} movie={movie} onMovieClick={movie => 
                 {this.setSelectedMovie(movie); }}/>
-            ))
-            } 
+                </Col>
+            ))}
+            </Row>
+            ) 
+                }
             </div>
         );
     }
