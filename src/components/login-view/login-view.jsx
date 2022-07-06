@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
@@ -10,13 +11,22 @@ export function LoginView(props) {
     const [ password, setPassword ] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(username, password);
-        //send a request to the server for authentication
-        // call props.onLoggedIn(username)
-        props.onLoggedIn(username);
+      e.preventDefault();
+      //send a request to the server for authentication
+      axios.post('https://movieflixappbyedwin.herokuapp.com/login',
+      {
+        Username: username,
+        Password: password
+      })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('no such user exists')
+      });
         
-    }
+};
 
 return (
     
