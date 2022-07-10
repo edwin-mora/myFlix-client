@@ -2,45 +2,48 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { Container } from 'react-router-dom';
 
 export function RegistrationView(props) {
-    const [ name, setName ] = useState('');
-    const [ username, setUsername ] = useState('');
-    const [ password, setPassword ] = useState('');
-    const [ email, setEmail ] = useState('');
-    const [ nameErr, setNameErr ] = useState('');
-    const [ usernameErr, setUsernameErr ] = useState('');
-    const [ passwordErr, setPasswordErr ] = useState('');
-    const [ emailErr, setEmailErr ] = useState('');
+  const [ name, setName ] = useState('');
+  const [ username, setUsername ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ birthday, setBirthday ] = useState('');
+  const [ nameErr, setNameErr ] = useState('');
+  const [ usernameErr, setUsernameErr ] = useState('');
+  const [ passwordErr, setPasswordErr ] = useState('');
+  const [ emailErr, setEmailErr ] = useState('');
+  const [ birthdayErr, setBirthdayErr ] = useState('');
 
-    const validate = () => {
-      let isReq = true;
-      if(name){
-        setNameErr('Name is required.');
-        isReq = false;
-      }
-      if(!username){
-        setUsernameErr('Username is required.');
-        isReq = false;
-      } else if(username.length <2){
-        setUsernameErr('Username must be longer than 2 characters.');
-        isReq = false;
-      }
-      if(!password){
-        setPasswordErr('Password is required');
-        isReq = false;
-      } else if(password.length < 6){
-        setPasswordErr('Password must be 6 characters long');
-        isReq = false;
-      }
-      if(!email){
-        setEmailErr('Email is required.');
-        isReq = false;
-      } else if(email.indexOf('@') === -1 ){
-        setEmailErr('Email is invalid');
-        isReq = false;
-      }
-      return isReq;
+  const validate = () => {
+    let isReq = true;
+    if(name){
+      setNameErr('Name is required.');
+      isReq = false;
+    }
+    if(!username){
+      setUsernameErr('Username is required.');
+      isReq = false;
+    } else if(username.length <2){
+      setUsernameErr('Username must be longer than 2 characters.');
+      isReq = false;
+    }
+    if(!password){
+      setPasswordErr('Password is required');
+      isReq = false;
+    } else if(password.length < 6){
+      setPasswordErr('Password must be 6 characters long');
+      isReq = false;
+    }
+    if(!email){
+      setEmailErr('Email is required.');
+      isReq = false;
+    } else if(email.indexOf('@') === -1 ){
+      setEmailErr('Email is invalid');
+      isReq = false;
+    }
+    return isReq;
     }
 
     
@@ -48,7 +51,7 @@ export function RegistrationView(props) {
 
 
 
-    const handleSubmit = (e) => {
+    const handleRegister = (e) => {
       e.preventDefault();
       const isReq = validate();
       if(isReq){
@@ -65,21 +68,21 @@ export function RegistrationView(props) {
           alert('Registration successful, please login!');
           window.open('/', '_self'); //self is necessary so that the page opens in the current tab
         })
-        .catch(response => {
-          console.error(response);
-          alert('unable to register');
+        .catch(e => {
+          console.log('error regsitering user')
         });
       }
 };
 
 return (
   <Container>
-    <Row>
-      <Col>
-        <CardGroup>
-          <Card>
-            <Card.Body>
-            <Card.Title>Please Register</Card.Title>
+  <Row>
+  <Col>
+  <CardGroup>
+  <Card>
+  <Card.Body>
+  <Card.Title>Please Register</Card.Title>
+
   <Form>
     <Form.Group controlId='formUsername' className='reg-form-inputs'>
     <Form.Label>Username:</Form.Label>
@@ -125,29 +128,28 @@ return (
     <Form.Group controlId='updateBirthday'>
     <Form.Label>Birthday</Form.Label>
     <Form.Control
-      type="date" name="birthday"
+      type="date" name="birthday" placeholder='yyyy-mm-dd'
       onChange={(e) => setBirthday(e.target.value)}/>
     </Form.Group>
 
     <Button variant="primary" type="submit"
-    onClick={handleSubmit}>
-      Submit
-    </Button>
+    onClick={handleRegister}>Sign Up!</Button>
   </Form>
-      </Card.Body>
-      </Card>
-      </CardGroup>
-    </Col>
-  </Row>
+</Card.Body>
+</Card>
+</CardGroup>
+</Col>
+</Row>
 </Container>
 
-    );
+);
 }
 
-RegistrationView.propTypes = {
-  onRegistration: PropTypes.func.isRequired,
-  Name: PropTypes.string.isRequired,
-  Username: PropTypes.string.isRequired,
-  Password: PropTypes.string.isRequired,
-  Email: PropTypes.string.isRequired
+RegistrationView.PropTypes = {
+  register: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    birthday: PropTypes.string.isRequired
+  }).isRequired
 };

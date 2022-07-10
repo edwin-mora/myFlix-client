@@ -1,77 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-import UserInfo from './user-info';
-import FavoriteMovies from './favorite-movies-view';
-import UpdateUser from './update-user';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
-import './profile-view.scss'
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
+import { Container } from 'react-router-dom';
+import { FavoriteMoviesView } from './favorite-movies-view';
+import { UpdateView } from './update-view';
+import './profile-view.scss';
+
+export function ProfileView(props) {
+  const [ user, setUser ] = useState(props.user);
+  const [ movies, setMovies ] = useState(props.movies);
+  const [ favoriteMovies, setFavoriteMovies ] = useState([]);
+  const currentUser = localStorage.getItem('user');
+  const token = localStorage.getItem('token');
 
 
-/* export function ProfileView({ movies }) {
-  const [ user, setUser ] = useState({
-    Username: '',
-    Email: '',
-    FavoriteMovies: []
-  })
-} */
-
-//const favoriteMoviesList = movie.filter((movie) => {
-  //returnuser.FavoriteMovies.includes(movies._id);
-//});
-
-
-/* useEffect(() => {
-  let isMounted = true;
-  isMounted && getUser();
-  return () => {
-    isMounted = false;
+  const getUser = () => {
+    axios.get(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`,
+    {
+      headers: { Authorization: `Bearer ${token}`}
+    }).then(response => {
+      setUser(response.data);
+      setFavoriteMovies(response.data.FavoriteMovies)
+    }).catch(error => console.errer(error))
   }
-}, []) */
+
+  useEffect(() => {
+    getUser();
+  }, [])
 
   const handleDelete = () => {
-    axios.delete(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`, {
+    axios.delete(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`,
+    {
       headers: { Authorization: `Bearer ${token}`}
-    })
-    .then(() => {
-      alert(`${user.Username}'s account was successfully removed.`)
+    }).then(() => {
+      alert(`User: ${user.Username} has been successfully removed.`)
       localStorage.clear();
       window.open('/register', '_self');
-    })
-    .catch(error => console.error(error))
+    }).catch(error => console.error(error))
   }
 
-return (
-  <Container>
-    <Row>
-      <Col xs={12} sm={4}>
-        <Card>
-          <Card.Body>
-            <UserInfo name={user.Username} email={user.Email} />
-          </Card.Body>
-        </Card>
-        
-      </Col>
+  return (
+    <Container className='profile-form'>
+      <Row><h5>{user.Username}'s Profile</h5></Row>
+      <Row className='profile-1'>
+        <Col className='label'>Username</Col>
+        <Col className='value'>{user.Username}</Col>
+      </Row>
+      <Row className='profile-1'>
+        <Col className='label'>Password</Col>
+        <Col className='value'>**********</Col>
+      </Row>
+      <Row className='profile-1'>
+        <Col className='label'>E-mail</Col>
+        <Col className='value'>{user.Email}</Col>
+      </Row>
+      <Row className='profile-1'>
+        <Col className='label'>Birthday</Col>
+        <Col className='value'>{user.Birthday}</Col>
+      </Row>
+      <Row className='profile-fav-movies'>
+        <h5>Favorites: </h5>
+      </Row>
+      <Row className='profile-fav-movies-list'>
+        <FavoriteMoviesView movies={movies} favoriteMovies={favoriteMovies}
+        currentUser={currentUser} token={token}/>
+      </Row>
+      <UpdateView user={user}/>
+      <Button className='remove-user-btn' variant='danger'
+      onClick={handleDelete}>Delete Profile</Button>
+    </Container>
+  )
 
-      <Col xs={12} sm={8}>
-        <Card>
-          <Card.Body>
-            <UpdateUser handlesSubmit={handleSubmit}  handleUpdate={handleUpdate}/>
-          </Card.Body>
-        </Card>
-      </Col>
+}
 
 
-
-
-
-    </Row>
-    <FavoriteMovies favoriteMoviesList={favoriteMoviesList}/>
-  </Container>
-  
-);
 
 
