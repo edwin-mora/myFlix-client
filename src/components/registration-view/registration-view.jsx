@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
-import { Container } from 'react-router-dom';
 
 export function RegistrationView(props) {
-  const [ name, setName ] = useState('');
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ email, setEmail ] = useState('');
@@ -18,10 +16,6 @@ export function RegistrationView(props) {
 
   const validate = () => {
     let isReq = true;
-    if(name){
-      setNameErr('Name is required.');
-      isReq = false;
-    }
     if(!username){
       setUsernameErr('Username is required.');
       isReq = false;
@@ -56,7 +50,6 @@ export function RegistrationView(props) {
       const isReq = validate();
       if(isReq){
         axios.post('https://movieflixappbyedwin.herokuapp.com/users', {
-          Name: name,
           Username: username,
           Password: password,
           Email: email,
@@ -75,13 +68,13 @@ export function RegistrationView(props) {
 };
 
 return (
-  <Container>
-  <Row>
-  <Col>
-  <CardGroup>
-  <Card>
-  <Card.Body>
-  <Card.Title>Please Register</Card.Title>
+<Container>
+<Row>
+    <Col>
+      <CardGroup>
+        <Card>
+        <Card.Body>
+        <Card.Title>Sign Up for MyFlix</Card.Title>
 
   <Form>
     <Form.Group controlId='formUsername' className='reg-form-inputs'>
@@ -92,16 +85,6 @@ return (
       required
       placeholder="Enter a username" />
       {usernameErr && <p>{usernameErr}</p>}
-    </Form.Group>
-
-    <Form.Group controlId='formName' className='reg-form-inputs'>
-    <Form.Label>Name:</Form.Label>
-    <Form.Control
-      type="text" value={name}
-      onChange={(e)=> setName(e.target.value)}
-      required
-      placeholder="What is your name?"/>
-      {nameErr && <p>{nameErr}</p>}
     </Form.Group>
 
      <Form.Group controlId='formPassword' className='reg-form-inputs'>
@@ -118,7 +101,7 @@ return (
     <Form.Group controlId='formEmail' className='reg-form-inputs'>
     <Form.Label>Email</Form.Label>
     <Form.Control
-      type="email" value={password}
+      type="email" value={email}
       onChange={(e) => setEmail(e.target.value)} 
       required
       placeholder="Enter email address" />
@@ -135,11 +118,12 @@ return (
     <Button variant="primary" type="submit"
     onClick={handleRegister}>Sign Up!</Button>
   </Form>
-</Card.Body>
-</Card>
-</CardGroup>
-</Col>
-</Row>
+
+        </Card.Body>
+      </Card>
+    </CardGroup>
+   </Col>
+  </Row>
 </Container>
 
 );

@@ -64,9 +64,3 @@ export function FavoriteMoviesView(props) {
 
 
 
-
-FavoriteMovies.PropTypes = {
-  movies: PropTypes.shape ({
-    title: PropTypes.string.isRequired
-  }).isRequired
-};

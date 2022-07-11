@@ -8,26 +8,29 @@ import { UpdateView } from './update-view';
 import './profile-view.scss';
 
 export function ProfileView(props) {
-  const [ user, setUser ] = useState(props.user);
-  const [ movies, setMovies ] = useState(props.movies);
+  const [ username, setUsername ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ email, setEmail ] = useState('');
   const [ favoriteMovies, setFavoriteMovies ] = useState([]);
-  const currentUser = localStorage.getItem('user');
-  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    getUser()
+  }, [])
 
 
   const getUser = () => {
-    axios.get(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`,
+    let user = localStorage.getItem('user');
+    let token = localStorage.getItem('token');
+    axios.get(`https://movieflixappbyedwin.herokuapp.com/users/${user}`,
     {
       headers: { Authorization: `Bearer ${token}`}
     }).then(response => {
-      setUser(response.data);
-      setFavoriteMovies(response.data.FavoriteMovies)
-    }).catch(error => console.errer(error))
+      setUsername(response.data.username);
+      setEmail(response.data.email)
+      setFavoriteMovies(response.data.favoriteMovies)
+      console.log(response.data)
+    }).catch(error => console.error(error))
   }
-
-  useEffect(() => {
-    getUser();
-  }, [])
 
   const handleDelete = () => {
     axios.delete(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`,

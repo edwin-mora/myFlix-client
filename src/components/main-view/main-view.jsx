@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { NavbarView } from '../nav-bar/nav-bar';
 import { Row, Col, Button, Navbar } from 'react-bootstrap';
 import { RegistrationView } from '../registration-view/registration-view';
 import PropTypes from 'prop-types';
