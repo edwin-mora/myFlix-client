@@ -1,51 +1,51 @@
-import React from 'react';
-import { Container, Navbar, Nav, Button } from 'react-bootstrap';
-import './nav-bar.scss';
+import React from "react";
+import { Link } from "react-router-dom";
 
-export function NavbarView({ user }) {
-  
-  const onLoggedOut = () => {
+// styling
+import { Navbar, Nav, Button } from "react-bootstrap";
+// export NavView class function
+export class NavView extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {};
+  }
+
+  // function to log out
+  onLoggedOut = () => {
     localStorage.clear();
     window.open("/", "_self");
-  }
-  const isAuth = () => {
-    if(typeof window == "undefined") {
-      return false;
-    }
-    if (localStorage.getItem("token")) {
-      return localStorage.getItem("token");
-    } else {
-      return false;
-    }
   };
 
-  return (
+  render() {
+    const { user } = this.props;
+    const pathMovies = `/`;
+    const pathProfile = `/users/${user}`;
 
-    <Navbar className='main-view' sticky='top' bg='dark'
-    expand='lg' variant='dark'>
-      <Container>
-      <Navbar.Brand className='navbar-logo' href='/'>
-        myFlixApp</Navbar.Brand>
-        <Navbar.Toggle aria-controls='responsive-navbar-nav'/>
-        <Navbar.Collapse id='responsive-navbar-nav'>
-          <Nav className='ml-auto'>
-          {isAuth() && (
-            <Nav.Link href={`/users/${user}`}>{user}</Nav.Link>
-          )}
-          {isAuth() && (
-            <Button variant='link' onClick={() => {
-              this.onLoggedOut() }}>Logout</Button>
-          )}
-          {!isAuth() && (
-            <Nav.Link href='/'>Sign In</Nav.Link>
-          )}
-          {!isAuth() && (
-            <Nav.Link href='/register'>Sign Up</Nav.Link>
-          )}
+    if (!user) return null;
+
+    return (
+      <Navbar collapseOnSelect expand="lg" fixed="top">
+        <Navbar.Brand href="/"></Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link as={Link} to={pathMovies} className="link-text">
+              Movies
+            </Nav.Link>
+
+            <Nav.Link as={Link} to={pathProfile} className="link-text">
+              Profile
+            </Nav.Link>
+
+            <Nav.Link to={"/"} onClick={this.onLoggedOut}>
+              Log Out
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  )
-
+      </Navbar>
+    );
+  }
 }

@@ -1,82 +1,319 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Button, Col, Row } from 'react-bootstrap';
-import { Container } from 'react-router-dom';
-import { FavoriteMoviesView } from './favorite-movies-view';
-import { UpdateView } from './update-view';
-import './profile-view.scss';
+import React from "react";
 
-export function ProfileView(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ email, setEmail ] = useState('');
-  const [ favoriteMovies, setFavoriteMovies ] = useState([]);
+import "./profile-view.scss";
+import axios from "axios";
 
-  useEffect(() => {
-    getUser()
-  }, [])
+import PropTypes from "prop-types";
 
+import {
+  Container,
+  Card,
+  Button,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  FormControl,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-  const getUser = () => {
-    let user = localStorage.getItem('user');
-    let token = localStorage.getItem('token');
-    axios.get(`https://movieflixappbyedwin.herokuapp.com/users/${user}`,
-    {
-      headers: { Authorization: `Bearer ${token}`}
-    }).then(response => {
-      setUsername(response.data.username);
-      setEmail(response.data.email)
-      setFavoriteMovies(response.data.favoriteMovies)
-      console.log(response.data)
-    }).catch(error => console.error(error))
+export class ProfileView extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: null,
+      email: null,
+      password: null,
+      birthday: null,
+      favoriteMovies: [],
+    };
+
+    this.setUsername = this.setUsername.bind(this);
   }
 
-  const handleDelete = () => {
-    axios.delete(`https://movieflixappbyedwin.herokuapp.com/users/${currentUser}`,
-    {
-      headers: { Authorization: `Bearer ${token}`}
-    }).then(() => {
-      alert(`User: ${user.Username} has been successfully removed.`)
-      localStorage.clear();
-      window.open('/register', '_self');
-    }).catch(error => console.error(error))
+  getUser(token) {
+    let user = localStorage.getItem("user");
+    axios
+      .get(`https://movieflixappbyedwin.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        //assign the result to the state
+        this.setState({
+          username: response.data.Username,
+          password: response.data.Password,
+          email: response.data.Email,
+          birthday: response.data.Birthday,
+          favoriteMovies: response.data.FavoriteMovies,
+        });
+      })
+      .catch((e) => console.log(e));
   }
 
-  return (
-    <Container className='profile-form'>
-      <Row><h5>{user.Username}'s Profile</h5></Row>
-      <Row className='profile-1'>
-        <Col className='label'>Username</Col>
-        <Col className='value'>{user.Username}</Col>
-      </Row>
-      <Row className='profile-1'>
-        <Col className='label'>Password</Col>
-        <Col className='value'>**********</Col>
-      </Row>
-      <Row className='profile-1'>
-        <Col className='label'>E-mail</Col>
-        <Col className='value'>{user.Email}</Col>
-      </Row>
-      <Row className='profile-1'>
-        <Col className='label'>Birthday</Col>
-        <Col className='value'>{user.Birthday}</Col>
-      </Row>
-      <Row className='profile-fav-movies'>
-        <h5>Favorites: </h5>
-      </Row>
-      <Row className='profile-fav-movies-list'>
-        <FavoriteMoviesView movies={movies} favoriteMovies={favoriteMovies}
-        currentUser={currentUser} token={token}/>
-      </Row>
-      <UpdateView user={user}/>
-      <Button className='remove-user-btn' variant='danger'
-      onClick={handleDelete}>Delete Profile</Button>
-    </Container>
-  )
+  componentDidMount() {
+    const accessToken = localStorage.getItem("token");
+    this.getUser(accessToken);
+  }
 
+  onLoggedOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.setState({
+      user: null,
+    });
+    window.open("/", "_self");
+  }
+
+  editProfile = (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    let newUser = this.state.username;
+    console.log(newUser);
+    axios
+      .put(
+        `https://movieflixappbyedwin.herokuapp.com/users/${user}`,
+        {
+          username: this.state.username,
+          password: this.state.password,
+          email: this.state.email,
+          birthday: this.state.birthday,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((response) => {
+        this.setState({
+          username: response.data.username,
+          password: response.data.password,
+          email: response.data.email,
+          birthday: response.data.birthday,
+        });
+        localStorage.setItem("user", this.state.username);
+        alert("profile updated successfully!");
+        window.open(`/users/${newUser}`, "_self");
+      });
+  };
+
+  deleteProfile() {
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `https://movieflixappbyedwin.herokuapp.com/users/${username}`,
+
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((response) => {
+        console.log(response);
+        alert("profile deleted");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      })
+      .catch((e) => console.log(e));
+  }
+
+  setUsername(e) {
+    this.setState({
+      username: e.target.value,
+    });
+  }
+  setPassword(value) {
+    this.setState({
+      password: value,
+    });
+  }
+  setEmail(value) {
+    this.setState({
+      email: value,
+    });
+  }
+  setBirthday(value) {
+    this.setState({
+      birthday: value,
+    });
+  }
+  removeFav(movieId) {
+    let user = localStorage.getItem("user");
+    let token = localStorage.getItem("token");
+    axios
+      .delete(
+        `https://movieflixappbyedwin.herokuapp.com/users/${user}/movies/${movieId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        alert(`The movie was successfully deleted.`);
+        window.open(`/users/${user}`, "_self");
+      })
+      .catch((error) => console.error(error));
+  }
+
+  render() {
+    const { movies } = this.props;
+    const { favoriteMovies, username } = this.state;
+    if (!username) {
+      return null;
+    }
+
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Form
+                  className="update-form"
+                  onSubmit={(e) =>
+                    this.editProfile(
+                      e,
+                      this.username,
+                      this.password,
+                      this.email,
+                      this.birthday
+                    )
+                  }
+                >
+                  <Container>
+                    <Container className="flex-item pt-5">
+                      <div className="profile-form-title">
+                        Your myFlix Profile
+                        <FormControl
+                          type="text"
+                          name="username"
+                          placeholder="New Username"
+                          onChange={this.setUsername}
+                          required
+                        />
+                        <Form.Text className="text-muted">
+                          Your username should be at least 2 characters long
+                        </Form.Text>
+                      </div>
+
+                      <div className="p-0 d-flex-column">
+                        <FormControl
+                          type="text"
+                          name="password"
+                          placeholder="New Password"
+                          onChange={(e) => this.setPassword(e.target.value)}
+                          required
+                        />
+                        <Form.Text className="text-muted">
+                          Your password should be at least 6 characters long
+                        </Form.Text>
+                      </div>
+
+                      <div className="p-0 d-flex-column mb-2">
+                        <FormControl
+                          type="email"
+                          name="email"
+                          placeholder="New Email"
+                          onChange={(e) => this.setEmail(e.target.value)}
+                          required
+                        />
+                        <Form.Text className="text-muted">
+                          Enter a valid e-mail address
+                        </Form.Text>
+                      </div>
+
+                      <div className="p-0 d-flex-column">
+                        <FormControl
+                          type="date"
+                          name="birthday"
+                          placeholder="insert your new email here"
+                          onChange={(e) => this.setBirthday(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </Container>
+                  </Container>
+                  <Container className="mt-2 text-center">
+                    <Button
+                      variant="primary custom-btn"
+                      type="submit"
+                      onClick={this.editProfile}
+                    >
+                      Update Info!
+                    </Button>
+                  </Container>
+                </Form>
+              </Card.Body>
+            </Card>
+            <Card className="mt-2 mb-2">
+              <Container className="p-1 text-center card-custom">
+                <Button
+                  style={{ width: "80%" }}
+                  className="custom-btn-delete m-1"
+                  variant="primary"
+                  type="submit"
+                  onClick={this.deleteProfile}
+                >
+                  Delete Profile
+                </Button>{" "}
+              </Container>
+            </Card>
+          </Col>
+        </Row>
+
+        <Card>
+          <Card.Body>
+            {favoriteMovies.length === 0 && (
+              <div className="titles h1 text-center">
+                <h1>No Favorite Movies Yet</h1>
+                <p className="h5">
+                  <Link to={`/`}>
+                    <Button className="custom-btn" type="submit">
+                      Back
+                    </Button>
+                  </Link>
+                </p>
+              </div>
+            )}
+            <Row className="favorite-movies d-flex justify-content-around">
+              {favoriteMovies.length > 0 &&
+                movies.map((movie) => {
+                  if (
+                    movie._id ===
+                    favoriteMovies.find((fav) => fav === movie._id)
+                  ) {
+                    return (
+                      <Card className="favorite-movie m-2" key={movie._id}>
+                        <Link to={`/movies/${movie._id}`}>
+                          <Card.Img
+                            variant="top"
+                            src={movie.ImagePath}
+                            className="img-responsive"
+                          />
+                        </Link>
+
+                        <Card.Body>
+                          <Card.Title className="h1 titles">
+                            {movie.Title}
+                          </Card.Title>
+                          <Button
+                            className="custom-btn"
+                            onClick={() => this.removeFav(movie._id)}
+                          >
+                            Remove From Favorites
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    );
+                  }
+                })}
+            </Row>
+          </Card.Body>
+        </Card>
+      </Container>
+    );
+  }
 }
 
-
-
-
+ProfileView.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      Title: PropTypes.string.isRequired,
+      ImagePath: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
